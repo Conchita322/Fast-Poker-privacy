@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Wallet</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        Telegram.WebApp.ready();
+        
+        function sendWalletData() {
+            const walletAddress = Telegram.WebApp.initDataUnsafe.user?.wallet_address;
+            if (walletAddress) {
+                Telegram.WebApp.sendData(JSON.stringify({
+                    type: 'wallet_connected',
+                    address: walletAddress
+                }));
+            }
+            Telegram.WebApp.close();
+        }
+        
+        // Автоматически отправляем данные при открытии
+        window.onload = sendWalletData;
+    </script>
+</head>
+<body>
+    <div style="padding: 20px; text-align: center;">
+        <h2>Подключение кошелька...</h2>
+        <p>Если подключение не произошло автоматически, закройте это окно и попробуйте снова.</p>
+    </div>
+</body>
+</html>
